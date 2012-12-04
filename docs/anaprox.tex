@@ -1,0 +1,285 @@
+% Anaprox Physics
+% 2010 3rd Year Computer Science Advanced Software Project
+
+\documentclass{article}
+
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{listings}
+\lstset{ %
+language=C++,                % choose the language of the code
+basicstyle=\small,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,                   % adds a frame around the code
+tabsize=2,              % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+caption=PointMass.cpp - basic backbone of the physics engine, 
+breaklines=true,        % sets automatic line breaking
+breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+escapeinside={\%}{)}          % if you want to add a comment within your code
+}
+
+
+\begin{document}
+
+% Article top matter
+\pagestyle{headings}
+\title{Advanced Software Development \\ Anaprox Physics \\  \emph{ww8655 and wm8716}} 
+\author{ww8655@bris.ac.uk wm8716@bris.ac.uk}  %\texttt formats the text to a typewriter style font
+\date{Wednesday 27th October 2010}  %\today is replaced with the current date
+\maketitle
+
+\section{Introduction}
+The aim of this project is to create a robust and extremely lightweight real-time 3D physics engine.
+We decided to settle on this project as we both studied a number of mechanics units at
+A level but, so far have found no practical application for this knowledge. We felt that this was the perfect
+opportunity to finally put this into practice since the games project will be using 3rd party
+engines and will not let us explore this area.
+Whilst there are many good and highly technical open-source physics engines currently on the
+market, we felt that the focus of the majority of these engines was on very accurate simulations.
+This leaves them bloated and reduces their effectiveness in dealing with large numbers
+of simpler objects. There is a niche here which we can exploit by creating a simple yet effective
+project for users requiring a lightweight solution. It will be aimed at skilled programmers and will have
+a C++ interface.
+
+
+\section{The Engine}
+The functionality of the engine will be as follows: the user will create physics objects, providing
+various data about this object such as a set of primitives to be used for collision and its mass;
+the engine will store the states of each of these objects and at each call of the update function
+(to be called each iteration of the main loop) will update their positions; the updated positions will then
+be available for access by the application for use in, for example, the graphics engine.
+
+\newpage
+\section{Analysis}
+\subsection{Feasibility}
+Several larger projects such as \mbox{\emph{Havok}} and \mbox{\emph{Bullet}} are well known, solid
+and very technical. We hope to develop a lightweight engine which would fall into the same category as
+\mbox{\emph{Tokamak}}. Our Google survey returned lots of small projects which had a specific focus
+on modelling particular engineering situations and dynamics. There were plenty of 2D engines which
+were targeting a similar audience but few, if any, lightweight 3D physics engines. Most of these projects
+had dreadful websites, poor documentation and restrictive licences. Apart from resolving these issues,
+we intend to omit features that we feel simply bloat the engine.
+
+\mbox{\emph{Tokamak}} is the only other engine available which comes close to our requirements. It is; however,
+poorly documented and contains model breakage which we feel is unnecessary for a lightweight engine. Our main
+purpose is to explore and create a cleaner and more robust system which can efficiently handle large numbers
+of graphical objects in a convincing, though not accurate, manner.
+
+We have compiled a list from our Google survey of alternative engines:
+
+\newpage
+\subsection{Google Survey}
+
+\begin{center}
+	\begin{tabular}{ | p{1.8cm} | p{3.2cm} | p{3.5cm} | p{3.5cm} | p{1.6cm} | }
+		\hline
+		Name & Focus &  Strengths & Weaknesses & Licence \\
+		\hline
+		AERO Physics & 3D Pre-computed rigid body physics & 3D editor & Not real time, poor documentation and website, project appears dead & Unknown \\
+		\hline
+		Agx Multiphysics Toolkit & Professional Simulation Market, 3D & Highly Accurate & Not real time & Proprietary \\
+		\hline
+		Animats & Ragdoll Simulation & Very good at ragdolls & Narrow Focus & Proprietary \\
+		\hline
+		Box2D & 2D physics for games & Lightweight & Only 2D & zlib \\
+		\hline
+		Bullet & 3D real-time and pre-computed & Highly technical & Not lightweight & zlib \\
+		\hline
+		IBDS & 3D pre-computed, impulse based & Highly technical & Not real-time or lightweight & zlib \\
+		\hline
+		OpenTissue & 3D Pre-computed soft body physics & Highly technical & Not real-time or lightweight & zlib \\
+		\hline
+		ODE & 3D real-time articulated rigid bodies & Fast, well documented & Has a number of extraneous features & BSD \\
+		\hline
+		Tokamak & 3D lightweight & Lightweight & Poor documentation, a few extraneous features & BSD \\
+		\hline
+		Havok & 3D commercial real-time or pre-computed & Highly technical, well documented and supported & Proprietary, not lightweight & Proprietary \\
+		\hline
+		Dynamo & Force based engine & Various connections available & Several extraneous features & GPL \\
+		\hline
+		Fast CCD Collision Library & Collision detection pipeline & Works for any general polyhedron & Only collision detection & GPL \\
+		\hline
+		Solid & Collision detection pipeline & Very detailed modes of operation & Only collision detection & GPL \\
+		\hline
+		Springhead & Environment development & Many interface devices supported & Documentation mainly in japanese & GPL \\
+		\hline
+		nV Physics & 3D real-time & Several joint types, lightweight & Has a few extraneous features & Unknown \\
+		\hline
+		OpenMask & 3D virtual reality & Works with a virtual environment & Unsuitable for lightweight projects & QPL \\
+		\hline
+		Physics Abstraction Layer & Unified interface for several engines & Portable & Zero documentation & BSD \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Our Constraints}
+We are keenly aware that we will not be able to research \mbox{\emph{and}} develop some of the more technical aspects of a physics engine.
+In view of this, we think it is feasible to make a relatively basic (but still technically challenging) engine which is highly optimised
+and elegant. We hope to employ good, well structured objected oriented design and learn to unit test each part of this project with cppunit.
+We feel that this engine lends itself well to helping us progress in learning how to do agile programming well. There is always scope to
+make more and more with this; which is great if we want to really push ourselves and make something we can be proud of.
+
+Time permitting, the plan will be to finish the basic engine as outlined in the requirements section and work on optimising our code as
+best we can.
+
+\subsection{Requirements}
+The requirements for the engine are:
+
+\begin{itemize}
+	\item Lightweight
+	\item Efficient
+	\item Able to handle large numbers of objects
+	\item Convincingly (but not necessarily accurately) simulate Newtonian physics
+	\item Real time
+	\item Suitable for game physics
+	\item C++ interface
+\end{itemize}
+
+\subsection{Specification}
+
+From our research we have found that there are a three main categories to distinguish physics engines. These are: how objects are modelled, how contacts are resolved, and the order in which contacts are resolved.
+
+The three main models used for 3D body simulation are mass aggregate models, rigid body models and soft body models. Mass aggregate models consist of a number of points, each with their own individual properties (mass, etc.), connected in various ways to form a complete body. In this model, rotations are not specifically defined but are simulated through differing directions of travel of component points. In a rigid body model the object is considered as a whole and rotations are directly considered. A soft body model works similarly to a rigid body model but allows for deformation of objects. The maths involved in implementing a soft body model is very difficult and is not appropriate for our project. Since a rigid body model uses less resources in storing and updating due to not having to consider a huge number of points, we feel that this is the best option for our physics engine.
+
+Another consideration is how contacts are resolved. The options are impulse based or force based. Impulse based engines instantly change the velocity of the objects in question in order to resolve the contact. This can lead to a small vibration of objects that are at rest as they are repelled from each other with tiny impulses, which can be visible at low framerates. Alternatively, a force based approach can be used. This is how the real world actually works and so is more accurate, however, it is more computationally expensive so is less appropriate for our lightweight engine.
+
+Finally, the order in which contacts are resolved must be considered. The two main approaches are iterative and 'Jacobian-based'. In an iterative solution, contacts are resolved one at a time until each works individually. A Jacobian-based engine considers all contacts at once and calculates an overall set of effects. This is more accurate but is much slower. For this reason, we feel that an iterative approach is more appropriate for our project.
+
+\subsection{Specification Outline}
+
+These are the stages that we will build our engine:
+\begin{itemize}
+	\item Particle physics - this implements the basic set of Newtonian physics such as velocity and acceleration due to gravity. It assumes a point mass and is the basis for all the more advanced components.
+	\item Rigid body physics - this implements the rotational aspect of Newtonian physics.
+	\item Collision Detection - this stage implements collision detection and resolution in rigid bodies.
+	\item Friction - we then consider the effect of friction and air resistance in our calculations
+	\item Springs, rods and cables - finally, we will consider how to attach objects together using springs (force is applied based on the distance from a resting separation of the two attached objects), rods (the attached points cannot change separation), and cables (the attached objects can move freely until the reach a certain separation, at which point a 'reverse collision' occurs)
+\end{itemize}
+
+\section{Research}
+The vast majority of our time so far has been spent on research. Specifically, we have been refreshing our memory of the topics covered in A-level mechanics and reading through 'Game Physics Engine Development' by Ian Millington. This book covers most of the topics that we need to consider for our project, as well as providing an implementation of a simple physics engine. Obviously, our engine will bear similarities to this implementation, however we will be developing the project separately and will make some different design choices to the author. Also, one member of the team needed to brush up on his C++ skills before he was able to begin an object oriented implementation.
+
+One small but very interesting thing in particular came from reading the book - storing the inverse mass of an object rather than its actual mass. This has two benefits: firstly, since the majority of uses of the mass are to convert from a force to an acceleration, this allow the use of a multiplication rather than a more expensive division; and secondly, an object of infinite mass can simply be stored as having an inverse mass of zero.
+
+\section{Design}
+\subsection{Overview}
+Our preliminary design consists of 11 classes with 3 primary classes to which the interface is provided:
+\begin{itemize}
+	\item Vector - this is a basic class that stores a vector and provides vector operations
+	\item Matrix - this is a basic class that stores a matrix and provides matrix operations
+	\item Quaternion - this is a basic class that stores a quaternion and provides quaternion operations
+	\item Box - this is a basic class that stores a cuboid to be used for collision detection
+	\item Sphere - this is a basic class that stores a sphere to be used for collision detection
+	\item Collision - this is a set of Boxes and Spheres that are used for collision detection
+	\item PointMass - this represents a particle object. It stores the properties of this particle, making use of the Vector class, and provides the following interface to the user:
+	\begin{itemize}
+		\item PointMass - constructs a PointMass object based on given initial position, velocity and base acceleration vectors (defaulting to the zero vector), and a value for this objects gravity (with a set default).
+		\item SetGravity - sets the gravity property to a given value
+		\item SetPosition - sets the position to a given vector
+		\item SetVelocity - sets the velocity to a given vector
+		\item SetAcceleration - sets the base acceleration to a given vector
+		\item Update - updates the properties of the object, given the time since the last update (called by world). This is a virtual function.
+		\item GetPosition - gets the current position of the object as a Vector
+	\end{itemize}
+	\item RigidBody - this inherits from the particle class. It represents a rigid body object and provides the following interface to the user (as well as overriding the update function):
+	\begin{itemize}
+		\item RigidBody - constructs a RigidBody object based on the same parameters as PointMass, as well as quaternions for the initial orientation and angular velocity (default zero), and Collision object to approximate the shape of the object.
+		\item SetOrientation - sets the orientation to a given quaternion
+		\item SetAngVelocity - sets the angular velocity to a given quaternion
+		\item SetCollision - sets the approximation of shape to a new Collision object
+		\item GetOrientation - returns the current orientation of the object as a Quaternion
+	\end{itemize}
+	\item World - this stores the current state of the world. It offers this interface:
+	\begin{itemize}
+		\item World - instantiates the physics engine
+		\item Update - resolves collisions and updates the positions of objects
+	\end{itemize}
+	\item Link - this implements the spring, rod and cable connections. Since this is a low priority, it has not yet been fully considered.
+\end{itemize}
+
+\newpage
+\subsection{Class Structure}
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.75]{/home/ugrads/coms2008/wm8716/linux/Year3/anaprox/Anaprox/docs/class_diagram.png}
+\end{center}
+\caption{Rough initial outline of class structure using UML}
+\end{figure}
+
+
+\newpage
+\section{Implementation}
+\subsection{Example Code}
+\begin{lstlisting}
+/**
+ * Simple particle physics definitions
+ * Units: m/s
+ */
+#pragma once
+namespace anaprox {
+
+class PointMass {
+public:
+	PointMass(precision gravitationalForce = 15){};
+
+	PointMass(precision gravitationalForce = 15, Vector position_in,
+			Vector velocity_in, Vector acceleration_in) :
+		g(gravitationalForce) {
+
+		position = position_in;
+		velocity =  velocity_in;
+		acceleration = acceleration_in;
+
+	}
+
+	// Position, first and second derivatives
+	Vector position, velocity, acceleration;
+
+	// Inverse mass so that we can infinite mass will be just 0
+	precision inverseMass;
+
+	// Gravitaional vector (unique for each particle)
+	precision g;
+
+	// Unit to update positions over given timeframe
+	void Update(precision timeFrame);
+
+};
+
+void PointMass::Update(precision timeFrame) {
+
+	// Update position
+	position += (velocity*timeFrame);
+
+}
+}
+
+\end{lstlisting}
+
+
+
+\section{Demo}
+The demo we are creating to showcase Anaprox will be implemented using the Ogre Graphics engine. It will involve a set environment with a number of objects, and will be explored by the user with a free-roam camera. The user will be able to spawn simple objects, specifying their initial linear and angular velocities and so influence the environment through the collisions of these objects.
+
+
+\section{Anaprox?}
+You may well be wondering where the name \mbox{\emph{Anaprox Physics}} came from. We both wish there was a computer science explanation or even
+something remotely creative; it just sounded nice. Turns out that Anaprox is the trade name for a drug used to alleviate the effects of Arthritis which is unbelievably apt (maybe!) since our project is aimed at speeding up otherwise slow and clunky physics. We liked it anyway. 
+
+\section{Conclusion}
+At this point in the project we have done the majority of the mathematical research and are beginning to build up the classes. We have done a small amount of pair programming which has gone well and has been particularly useful in bringing one member up to speed with the new language.
+
+The implementation will probably allow us to structure our UML classes in a more realistic manner; at the moment they are just a rough and ready attempt. We are both looking forward to the programming experience and hope to get into the habit of good agile methods from the word go. The classes should all remain fairly small and contained; the focus will be on optimising them as the project progresses and testing them thoroughly.
+
+
+\end{document}  %End of document.

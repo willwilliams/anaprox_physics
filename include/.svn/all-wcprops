@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svnroot/anaprox/!svn/ver/58/Anaprox/include
+END
+Contact.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/anaprox/!svn/ver/47/Anaprox/include/Contact.h
+END
+Collision.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/anaprox/!svn/ver/57/Anaprox/include/Collision.h
+END
+BVHParentNode.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/anaprox/!svn/ver/58/Anaprox/include/BVHParentNode.h
+END
+CollisionSphere.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/anaprox/!svn/ver/58/Anaprox/include/CollisionSphere.h
+END
+Vector.h
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svnroot/anaprox/!svn/ver/51/Anaprox/include/Vector.h
+END
+CollisionBox.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/anaprox/!svn/ver/60/Anaprox/include/CollisionBox.h
+END
+Stack.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/anaprox/!svn/ver/34/Anaprox/include/Stack.h
+END
+Anaprox.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/anaprox/!svn/ver/56/Anaprox/include/Anaprox.h
+END
+CollisionPlane.h
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/anaprox/!svn/ver/57/Anaprox/include/CollisionPlane.h
+END
+RigidBody.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/anaprox/!svn/ver/57/Anaprox/include/RigidBody.h
+END
+BVHLeafNode.h
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/anaprox/!svn/ver/55/Anaprox/include/BVHLeafNode.h
+END
+PointMass.h
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/anaprox/!svn/ver/58/Anaprox/include/PointMass.h
+END
+Quaternion.h
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/anaprox/!svn/ver/48/Anaprox/include/Quaternion.h
+END
+Dataprecision.h
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/anaprox/!svn/ver/50/Anaprox/include/Dataprecision.h
+END
+BVHNode.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/anaprox/!svn/ver/55/Anaprox/include/BVHNode.h
+END
+Matrix3.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/anaprox/!svn/ver/34/Anaprox/include/Matrix3.h
+END
+World.h
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/anaprox/!svn/ver/57/Anaprox/include/World.h
+END
+Matrix4.h
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/anaprox/!svn/ver/21/Anaprox/include/Matrix4.h
+END

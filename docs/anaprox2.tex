@@ -1,0 +1,220 @@
+% Anaprox Physics
+% 2010 3rd Year Computer Science Advanced Software Project
+
+\documentclass{article}
+
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{listings}
+\lstset{ %
+language=C++,                % choose the language of the code
+basicstyle=\small,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line-numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+numbersep=5pt,                  % how far the line-numbers are from the code
+backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+showspaces=false,               % show spaces adding particular underscores
+showstringspaces=false,         % underline spaces within strings
+showtabs=false,                 % show tabs within strings adding particular underscores
+frame=single,                   % adds a frame around the code
+tabsize=2,              % sets default tabsize to 2 spaces
+captionpos=b,                   % sets the caption-position to bottom
+caption=PointMass.cpp - basic backbone of the physics engine, 
+breaklines=true,        % sets automatic line breaking
+breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+escapeinside={\%}{)}          % if you want to add a comment within your code
+}
+
+
+\begin{document}
+
+% Article top matter
+\pagestyle{headings}
+\title{Advanced Software Development \\ Anaprox Physics \\  \emph{ww8655 and wm8716}} 
+\author{ww8655@bris.ac.uk wm8716@bris.ac.uk}  %\texttt formats the text to a typewriter style font
+\date{Friday 19th November 2010}  %\today is replaced with the current date
+\maketitle
+
+\section{Introduction}
+The aim of this project is to create a robust and extremely lightweight real-time 3D physics engine.
+We decided to settle on this project as we both studied a number of mechanics units at
+A level but, so far have found no practical application for this knowledge. We felt that this was the perfect
+opportunity to finally put this into practice since the games project will be using 3rd party
+engines and will not let us explore this area.
+Whilst there are many good and highly technical open-source physics engines currently on the
+market, we felt that the focus of the majority of these engines was on very accurate simulations.
+This leaves them bloated and reduces their effectiveness in dealing with large numbers
+of simpler objects. There is a niche here which we can exploit by creating a simple yet effective
+project for users requiring a lightweight solution. It will be aimed at skilled programmers and will have
+a C++ interface.
+
+
+\section{Anaprox Stage 1}
+For the first stage of this project, we focussed on analysis and research. We conducted a fairly extensive Google Survey of alternative physics engines and found them all to be relatively bloated, leaving a niche for a lightweight physics engine that specialises in handling large numbers of simple objects. We consider our analysis to have been sufficiently explored within the first report and so will not be discussing it further. Research took the form of refreshing our memory of A level mechanics and reading through 'Game Physics Engine Development' by Ian Millington. Our engine will obviously bear similarities to the implementation that is developed through the course of the book, however we are developing the project separately and will make some different design choices to the author.
+
+We also outlined a specification for the project, considering the options of how objects are modelled, how contacts are resolved and what order contacts are resolved. We eventually decided to model objects as rigid bodies, resolve contacts using impulses rather than forces, and to resolve contacts iteratively. Finally, we outlined a preliminary design for the engine, considering the dependencies between classes.
+
+\section{Progression}
+The following shows the stages that we planned to build our engine in and is taken directly from our initial report:
+\begin{itemize}
+	\item Particle physics - this implements the basic set of Newtonian physics such as velocity and acceleration due to gravity. It assumes a point mass and is the basis for all the more advanced components.
+	\item Rigid body physics - this implements the rotational aspect of Newtonian physics.
+	\item Collision Detection - this stage implements collision detection and resolution in rigid bodies.
+	\item Friction - we then consider the effect of friction and air resistance in our calculations
+	\item Springs, rods and cables - finally, we will consider how to attach objects together using springs (force is applied based on the distance from a resting separation of the two attached objects), rods (the attached points cannot change separation), and cables (the attached objects can move freely until the reach a certain separation, at which point a 'reverse collision' occurs)
+\end{itemize}
+
+At this stage we have fully implemented the Particle physics and Rigid Body physics sections, and have spent some time considering our design of the collision detection system. We expect to have completed the collision detection stage and at least partially completed the friction stage by the end of the project, however, considering the rate we are working at we do not expect to implement springs, rods and cables. We always knew that it was very ambitious to be attempting to implement so much within such a short time so while it is disappointing that our engine will not be able to connect objects together, it is not unexpected.
+
+\section{Design}
+The design has been changed slightly in order to better conform with our aim of creating a lightweight engine. This mainly comes in the form of a couple of new assumptions - that the only modification operations that a user will require on a body are to add to the linear or angular velocity, or to add a constant force to the body; and that the user will only want to access the position and orientation of a body. All other values are fixed at object creation and can only be modified internally. This reduces the number of get and set functions, and makes the engine more lightweight but comes at the cost of some flexibility - a user cannot easily make an object teleport for example. Another design choice that has been made is for added forces to not be individually stored, instead their effect is added to the overall linear and angular acceleration. This reduces the space and computation requirements but means that a user cannot directly cancel a force, they must add a force which is acting on the same point relative to the centre of mass in the opposite direction.
+
+
+
+This is an updated design specification:
+\begin{itemize}
+	\item Vector - complete - this is a basic class that stores a vector and provides vector operations
+	\item Matrix - complete - this is a basic class that stores a matrix and provides matrix operations
+	\item Quaternion - complete - this is a basic class that stores a quaternion and provides quaternion operations
+	\item Box - pending - this is a basic class that stores a cuboid to be used for collision detection
+	\item Sphere - pending - this is a basic class that stores a sphere to be used for collision detection
+	\item Plane - pending - this is a basic class that stores a plane to be used for collision detection
+	\item Collision - pending - this is a set of Boxes, Spheres and Planes that are used for collision detection
+	\item BoundingVolume - pending - this is a node in the bounding volume hierarchy used by the course collision filter
+	\item PointMass - complete - this represents a particle object. It stores the properties of this particle, making use of the Vector class, and provides the following interface to the user:
+	\begin{itemize}
+		\item PointMass - constructs a PointMass object based on given initial position, velocity and base acceleration vectors (defaulting to the zero vector), inverse mass and a value for this objects gravity (with a set default).
+		\item addForce - adds a constant force to the particle
+		\item addImpulse - changes the velocity by a given amount
+		\item update - updates the properties of the object, given the time since the last update (called by world). This is a virtual function.
+		\item getPosition - gets the current position of the object as a Vector
+	\end{itemize}
+	\item RigidBody - partially complete - this inherits from the particle class. It represents a rigid body object and provides the following interface to the user (on top of the PointMass interface):
+	\begin{itemize}
+		\item RigidBody - constructs a RigidBody object based on the same parameters as PointMass, as well as a quaternion for the initial orientation, vectors for angular velocity and angular acceleration (default zero), inverse moment of inertia tensor and a Collision object to approximate the shape of the object.
+		\item addAngVel - changes the angular velocity by a given amount
+		\item addForce - adds a constant force to the body. There is a version of this to make the force act on a point other than the centre of mass.
+		\item getOrientation - returns the current orientation of the object as a Quaternion
+		\item update - updates the properties of the object, given the time since the last update (called by world). This is a virtual function.
+	\end{itemize}
+	\item World - pending - this stores the current state of the world. It offers this interface:
+	\begin{itemize}
+		\item World - instantiates the physics engine
+		\item Update - resolves collisions and updates the positions of objects
+	\end{itemize}
+\end{itemize}
+
+\newpage
+\subsection{Class Structure}
+
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.5]{/home/ugrads/coms2008/wm8716/linux/Year3/anaprox/Anaprox/docs/class_diagram2.png}
+\end{center}
+\caption{Outline of current class structure using UML}
+\end{figure}
+
+\newpage
+\section{Collision System Design}
+As our engine is designed to be used with a large number of simple objects, it would be very inefficient to check each object against every other object, for example 100 objects would require 10,000 collision checks, 500 would require a massive 250,000 checks. This is obviously not suitable for a real time system. We must implement a 'course collision detection' scheme which very quickly reduces the size of the problem that the more detailed collision detection and contact generation component must deal with. There are a number of data structures that can be used for this task:
+\begin{itemize}
+	\item Bounding Volume Hierarchy - this consists of a binary tree in which each node contains a simple bounding volume (normally sphere or cuboid) which fully contains the bounding volumes of both it's children. This has the advantage of being relatively easy to implement but is not very good for plane collision detection if a sphere is used.
+	\item Binary Space Partition - this consists of a binary tree in which each node contains a plane. Each child contains all the objects on each side of the plane. This has the advantage of being relatively quick to run through and is ideal for plane collision detection but it is difficult to find an optimal plane. It also raises the problem of what to do when an object intersects the plane.
+	\item Quad-trees and Oct-trees - this is similar to a a binary space partition but rather than each node containing a single plane and two children, they contain multiple planes which are perpendicular to each other and aligned with the world axes, and have the corresponding number of children. For a quad-tree this is 2 planes and 4 children, for an oct-tree this is 3 planes and 8 children. These have the same advantages and disadvantages of binary space partitions, without the flexibility of arbitrary plane alignment.
+	\item Grid - this is a grid structure in which each cell contains all objects within that cell. This has the advantage of being quick to run through but suffers from flexibility as the grid is of finite size. There is also the problem of objects occupying multiple cells, particularly those that are larger than the cell size. Finally, a very dense set of objects would be filtered down very little so reduce the effectiveness of the course filter, while a very sparse set of objects would still require a large grid so would incur a lot of overhead per object.
+	\item Multi-resolution Maps - this is a variant on the grid in which multiple grids with different cell sizes are stored. Objects are always stored in a grid with a cell size greater than  their own size. This solves one problem of the grid but the others remain and it increases the overhead involved.
+\end{itemize}
+
+\newpage
+For our implementation we have decided to use a bounding volume hierarchy. This is due to its flexibility in what space is used and the density of objects, and the ease of implementation. We now have a choice of what bounding volume to use out of:
+\begin{itemize}
+	\item Spheres - this is easy to implement, quick to run and rotation of the objects does not affect the bounding volume. However, it may generate a lot of false positives, particularly for relatively flat objects.
+	\item Axis Aligned Boxes - this is easy to implement and quick to run but rotation of objects may affect the bounding volume so it must be recalculated, creating overhead. It may generate a fair number of false positives, particularly for relatively flat objects that are not axis aligned.
+	\item Object Aligned Boxes - this is less easy to implement and slower to run but is the most accurate, producing the least false positives.
+\end{itemize}
+We will be using bounding spheres as this means that the course filter will run very fast and will not induce any overhead in recalculating the bounding volumes after rotation (though it will after linear movement). The relatively high number of false positives should not be a problem as even considering this the reduction in problem size will be substantial in almost all cases. However, in order to overcome this design's weakness in dealing with collision planes, we will be placing all planes in a node at the top of the structure and checking all these against the sphere bounding hierarchy. This should be efficient provided there are relatively few planes, which is a reasonable assumption in most cases.
+
+The course collision filter will recursively generate potential collisions, which will then be sent to a fine collision module, which will use the more accurate collision volumes that were given to the rigid body at creation. This will generate contact data, consisting of which 2 objects are colliding, the position of the collision and the contact normal in world space and the penetration depth. This data will then be used to resolve the contacts.
+
+\newpage
+
+\section{Implementation}
+\subsection{Usage}
+The provided .zip file contains an executable (anaprox.exe) that can be run on a Microsoft Windows system (tested on Windows 7). The controls are: 
+	\begin{itemize}
+		\item W: Camera forward
+		\item S: Camera backward
+		\item A: Camera strafe left
+		\item D: Camera strafe right
+		\item Mouse: Camera look
+		\item 1: Set spawn type to sphere rigid body
+		\item 2: Set spawn type to cube rigid body
+		\item 0: Set spawn type to point mass
+		\item Mouse click: Spawn object
+		\item (If camera is looking down positive x axis)
+		\item +/-: Change linear velocity in camera x axis
+		\item I/K: Change rotation velocity around camera z axis
+		\item J/L: Change rotation velocity around camera x axis
+		\item U/O: Change rotation velocity around camera y axis
+	\end{itemize}
+
+There are 2 fixed spheres which are used as reference points. The physics engine is not currently aware of these objects. As the collision system has not been implemented, the demo currently displays the updating of linear and angular position under constant velocity, plus linear acceleration due to gravity. The functionality of the demo is now in a state very close to the final demo (collisions are internal to the physics engine and require very little change to the demo itself), so most of any continued work on the demo will be on setting up different scenarios to showcase different aspects of the physics engine. As the initial velocity is zero and the objects spawn at the camera's position, they cannot initially be seen. The user must move the camera to look at the object or should add positive initial velocity to the object so that it moves into a visible position.
+
+The provided tar ball contains the current state of the code. The physics engine files are within the 'Anaprox' folder, and within this the 'include' folder contains the header files and the 'lib' folder contains the .cpp files. The demo files are within the 'Demo' folder, and within this the 'src' folder contains all source files.
+
+\section{Unit Testing}
+\subsection{Our Experience}
+The whole whole are of unit testing was quite a mixed experience. We first put a fair amount of time and effort into trying to understand the benefits and drawbacks of different unit testing frameworks and whether we should just write our own. Some looked quite powerful and the automation looked powerful so we thought it worthwhile integrating one of these systems into our project. Because we decided to develop with Visual Studio on Windows for this project (which has been a fairly difficult and frustrating experience at times) we found ourselves trying to include the header files into Visual Studio for the various frameworks. The documentation for cppunit was absolutely dreadful; we struggled for a long time trying to get it working but the documentation was verbose and ultimately unhelpful. Exhausted and ready to try something else we tried some of the Boost library's testing modules. It looked promising and we made a few nice test cases but it just would not compile in Visual Studio.
+
+The testing features of the IDE also looked promising but Microsoft's official documentation was only available for the 2005 version of Visual Studio. CppunitLite was small enough and contained sufficient documentation that we could assemble unit tests for all our classes.
+
+The unit tests caught a few problems and it was a really positive experience completing the unit test for a particular class and then being able to move on confident that we have a robust and reliable piece of code which we could call on without having to dive into the definitions again.
+
+The course lecture containing material about macros was useful for this particular part of the project; a few compile issues were ironed out quickly by noticing the same problems mentioned in the lecture.
+
+\subsection{The Tests}
+The number of tests is small enough at this point for us to hold them all in one file. For the more complex testing on the collision detection we anticipate having to reshuffle the organisation of the tests in some way depending on how much we manage to implement.
+
+We also intend to create a file, which we can read in, containing a list of all the edge cases of our constructions.
+
+\newpage
+Here is some sample code from StackTest.cpp:
+
+\begin{lstlisting}
+TEST( Quaternion, headers)
+{
+	Quaternion q(13, 2, 1, 8);
+
+	// Check normalised correctly
+	precision divisor = prec_sqrt(static_cast<precision>(238));
+	q.normalise();
+	CHECK(q.r==static_cast<precision>(13/divisor));
+	CHECK(q.i==static_cast<precision>(2/divisor));
+	CHECK(q.j==static_cast<precision>(1/divisor));
+	CHECK(q.k==static_cast<precision>(8/divisor));
+
+	// Check quaternion multiplication
+	Quaternion mult1(1,4,9,5);
+	Quaternion mult2(10,2,14,1);
+	mult1 *= mult2;
+
+	CHECK(mult1.r==-129 && mult1.i==-19 && mult1.j==110 &&
+		mult1.k==89);
+
+	// Check rotation
+	Vector rotationVector(2,4,8);
+	Quaternion qr(3, 2, 1, 4);
+	qr.rotate(rotationVector);
+
+	CHECK(qr.r==-40 && qr.i==-2 && qr.j==4 && qr.k==30);
+}
+\end{lstlisting}
+
+\section{Conclusion}
+We feel that our progress has been fairly steady over this last section and has given us some quite exciting visual results. The pair programming has been notably improving our productivity and helping us debug problems quickly and efficiently. The agile approach we have taken to the project has been actually quite helpful in making decisions about which features we  \mbox{\emph{really}} need to include and has helped us to focus our programming efforts on the critical sections of the project.
+
+In summary, what we have at this juncture is robust and extensible and we are looking forward to extending the project with collision detection.
+
+\end{document}  %End of document.

@@ -1,0 +1,101 @@
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svnroot/anaprox/!svn/ver/59/Anaprox/lib
+END
+empty.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svnroot/anaprox/!svn/ver/7/Anaprox/lib/empty.cpp
+END
+BVHParentNode.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svnroot/anaprox/!svn/ver/58/Anaprox/lib/BVHParentNode.cpp
+END
+CollisionSphere.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svnroot/anaprox/!svn/ver/60/Anaprox/lib/CollisionSphere.cpp
+END
+Vector.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/Vector.cpp
+END
+CollisionBox.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svnroot/anaprox/!svn/ver/60/Anaprox/lib/CollisionBox.cpp
+END
+StackTest.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/anaprox/!svn/ver/60/Anaprox/lib/StackTest.cpp
+END
+StackMain.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/StackMain.cpp
+END
+CollisionPlane.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/anaprox/!svn/ver/57/Anaprox/lib/CollisionPlane.cpp
+END
+RigidBody.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/anaprox/!svn/ver/57/Anaprox/lib/RigidBody.cpp
+END
+BVHLeafNode.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svnroot/anaprox/!svn/ver/58/Anaprox/lib/BVHLeafNode.cpp
+END
+PointMass.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/anaprox/!svn/ver/58/Anaprox/lib/PointMass.cpp
+END
+BVHNode.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/anaprox/!svn/ver/55/Anaprox/lib/BVHNode.cpp
+END
+Quaternion.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svnroot/anaprox/!svn/ver/48/Anaprox/lib/Quaternion.cpp
+END
+World.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 50
+/svnroot/anaprox/!svn/ver/58/Anaprox/lib/World.cpp
+END
+Matrix3.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/Matrix3.cpp
+END
+Collision.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 54
+/svnroot/anaprox/!svn/ver/58/Anaprox/lib/Collision.cpp
+END

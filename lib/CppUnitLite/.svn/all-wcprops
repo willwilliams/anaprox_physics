@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/CppUnitLite
+END
+TestResult.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/CppUnitLite/TestResult.cpp
+END
+Test.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/CppUnitLite/Test.cpp
+END
+SimpleString.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/CppUnitLite/SimpleString.cpp
+END
+TestResult.h
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/CppUnitLite/TestResult.h
+END
+Test.h
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/CppUnitLite/Test.h
+END
+SimpleString.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/CppUnitLite/SimpleString.h
+END
+Failure.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/CppUnitLite/Failure.cpp
+END
+TestHarness.h
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/CppUnitLite/TestHarness.h
+END
+TestRegistry.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/CppUnitLite/TestRegistry.cpp
+END
+Failure.h
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/CppUnitLite/Failure.h
+END
+TestRegistry.h
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/anaprox/!svn/ver/34/Anaprox/lib/CppUnitLite/TestRegistry.h
+END

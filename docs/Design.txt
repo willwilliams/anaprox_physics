@@ -1,0 +1,27 @@
+Design:
+
+Our preliminary design consists of 11 classes with 3 primary classes to which the interface is provided:
+Vector - this is a basic class that stores a vector and provides vector operations
+Matrix - this is a basic class that stores a matrix and provides matrix operations
+Quaternion - this is a basic class that stores a quaternion and provides quaternion operations
+Box - this is a basic class that stores a cubiod to be used for collision detection
+Sphere - this is a basic class that stores a sphere to be used for collision detection
+Collision - this is a set of Boxes and Spheres that are used for collision detection
+PointMass - this represents a particle object. It stores the properties of this particle, making use of the Vector class, and provides the following interface to the user:
+	PointMass - constructs a PointMass object based on given initial position, velocity and base acceleration vectors (defaulting to the zero vector), and a value for this objects gravity (with a set default).
+	SetGravity - sets the gravity property to a given value
+	SetPosition - sets the position to a given vector
+	SetVelocity - sets the velocity to a given vector
+	SetAcceleration - sets the base acceleration to a given vector
+	Update - updates the properties of the object, given the time since the last update (called by world)
+	GetPosition - gets the current position of the object as a Vector
+RigidBody - this inherits from the particle class. It represents a rigid body object and provides the following interface to the user (as well as overriding the update function):
+	RigidBody - constructs a RigidBody object based on the same parameters as PointMass, as well as quaternions for the initial orientation and angular velocity (default zero), and Collision object to approximate the shape of the object.
+	SetOrientation - sets the orientation to a given quaternion
+	SetAngVelocity - sets the angular velocity to a given quaternion
+	SetCollision - sets the approximation of shape to a new Collision object
+	GetOrientation - returns the current orientation of the object as a Quaternion
+World - this stores the current state of the world. It offers this interface:
+	World - instantiates the physics engine
+	Update - resolves collisions and updates the positions of objects
+Link - this implements the spring, rod and cable connections. Since this is a low priority, it has not yet been fully considered.
